@@ -9,8 +9,20 @@ const app: express.Application = express();
 // Take a port from environment or default 3000
 const port: number = parseInt(process.env.PORT || '3000');
 
+// CORS Configuration
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.ALLOWED_ORIGINS?.split(',') || [] 
+    : '*', 
+  credentials: true, // Allow cookies/authorization headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  maxAge: 86400, // Cache preflight request for 24 hours
+};
+
 // Middlewares
-app.use(cors()); // Enable CORS
+app.use(cors(corsOptions)); // Enable CORS with custom options
 app.use(express.json()); // Parse JSON request body
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request body
 
