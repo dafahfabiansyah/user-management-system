@@ -12,6 +12,7 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const {
       search = '',
+      role = '',
       sortBy = 'createdAt',
       order = 'desc',
       page = '1',
@@ -22,15 +23,21 @@ router.get('/', async (req: Request, res: Response) => {
     const limitNum = parseInt(limit as string);
     const skip = (pageNum - 1) * limitNum;
 
-    // Build where clause for search
-    const where = search
-      ? {
-          OR: [
-            { name: { contains: search as string, mode: 'insensitive' as any } },
-            { email: { contains: search as string, mode: 'insensitive' as any } },
-          ],
-        }
-      : {};
+    // Build where clause for search and filter
+    const where: any = {};
+
+    // Search by name or email
+    if (search) {
+      where.OR = [
+        { name: { contains: search as string, mode: 'insensitive' as any } },
+        { email: { contains: search as string, mode: 'insensitive' as any } },
+      ];
+    }
+
+    // Filter by role
+    if (role) {
+      where.role = role as string;
+    }
 
     // Get total count for pagination
     const total = await prisma.user.count({ where });

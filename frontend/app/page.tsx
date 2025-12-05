@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -25,7 +26,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchUsers();
-  }, [search, sortOrder, currentPage]);
+  }, [search, roleFilter, sortOrder, currentPage]);
 
   const fetchUsers = async () => {
     try {
@@ -33,6 +34,7 @@ export default function Dashboard() {
       const response = await apiClient.get('/api/users', {
         params: {
           search,
+          role: roleFilter,
           sortBy: 'createdAt',
           order: sortOrder,
           page: currentPage,
@@ -54,6 +56,11 @@ export default function Dashboard() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     setCurrentPage(1); // Reset to first page on search
+  };
+
+  const handleRoleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoleFilter(e.target.value);
+    setCurrentPage(1); // Reset to first page on filter
   };
 
   const toggleSortOrder = () => {
@@ -84,7 +91,7 @@ export default function Dashboard() {
               </p>
             </div>
 
-            {/* Search and Sort Controls */}
+            {/* Search, Filter and Sort Controls */}
             <div className="mb-4 flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
                 <input
@@ -95,6 +102,15 @@ export default function Dashboard() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
+              <select
+                value={roleFilter}
+                onChange={handleRoleFilterChange}
+                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                <option value="">All Roles</option>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
               <button
                 onClick={toggleSortOrder}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
