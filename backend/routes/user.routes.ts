@@ -42,6 +42,7 @@ router.get('/', async (req: Request, res: Response) => {
         id: true,
         name: true,
         email: true,
+        role: true,
         createdAt: true,
       },
       orderBy: {
@@ -84,6 +85,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         id: true,
         name: true,
         email: true,
+        role: true,
         createdAt: true,
       },
     });
