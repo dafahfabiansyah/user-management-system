@@ -2,8 +2,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import * as Keychain from 'react-native-keychain';
 
-// Hardcoded for now - change to your computer's IP
-const API_URL = 'http://192.168.0.180:3000';
+const API_URL = 'https://api.dafbians.my.id';
 
 console.log('🔗 API URL:', API_URL);
 console.log('🔗 Config API URL:', Config.API_URL);

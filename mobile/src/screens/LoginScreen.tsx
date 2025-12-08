@@ -91,12 +91,6 @@ const LoginScreen: React.FC = () => {
               )}
             </TouchableOpacity>
           </View>
-
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Test Accounts:</Text>
-            <Text style={styles.credential}>jane@example.com / password123</Text>
-            <Text style={styles.credential}>john@example.com / password123</Text>
-          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
